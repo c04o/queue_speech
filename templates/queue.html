@@ -1,0 +1,61 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1 class="text-center mb-4">Cola de Camiones</h1>
+
+<!-- Form to add a truck -->
+<form method="POST" action="{{ url_for('add_truck') }}" class="mb-4">
+    <div class="form-group">
+        <label for="license">Número de placa</label>
+        <input type="text" name="license" id="license" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="product">Producto</label>
+        <select name="product" id="product" class="form-control" required>
+            {% for product in products %}
+                <option value="{{ product }}">{{ product }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="driver">Conductor</label>
+        <input type="text" name="driver" id="driver" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="company">Empresa de origen</label>
+        <input type="text" name="company" id="company" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar camión</button>
+</form>
+
+<!-- Display the next truck -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Siguiente</h5>
+        <p class="card-text">
+            {% if next_truck %}
+                Número de placa: {{ next_truck['license'] }}, Producto: {{ next_truck['product'] }}, Conductor: {{ next_truck['driver'] }}, Empresa de origen: {{ next_truck['company'] }}, Hora de llegada: {{ next_truck['arrival_time'] }}
+            {% else %}
+                No hay camiones en cola
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<!-- Button to process (dequeue) -->
+<form method="POST" action="{{ url_for('process_truck') }}" class="mb-4">
+    <button type="submit" class="btn btn-danger" {% if not trucks %}disabled{% endif %}>Procesar camión</button>
+</form>
+
+<!-- List of trucks in the queue -->
+<h3>En cola</h3>
+{% if trucks %}
+    <ul class="list-group">
+        {% for truck in trucks %}
+            <li class="list-group-item">Número de placa: {{ truck['license'] }}, Producto: {{ truck['product'] }}, Conductor: {{ truck['driver'] }}, Empresa de origen: {{ truck['company'] }}, Hora de llegada: {{ truck['arrival_time'] }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No trucks in the queue.</p>
+{% endif %}
+{% endblock %}
