@@ -1,81 +1,48 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<h1 class="text-center mb-4">Cola de Camiones</h1>
+<h1 class="text-center mb-4">Cola de Nombres</h1>
 
-<!-- Form to add a truck -->
-<form method="POST" action="{{ url_for('add_truck') }}" class="mb-4">
-  <div class="form-group">
-    <label for="license">Número de placa</label>
-    <div class="input-group mb-3">
-      <input type="number" name="license" id="license" class="form-control" required>
-      <button id="microphone_1" type="button" class="microphone btn btn-primary">
-        <i class="fa-solid fa-microphone"></i>
-      </button>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="product">Producto</label>
-    <div class="input-group mb-3">
-      <select name="product" id="product" class="form-control" required>
-        {% for product in products %}
-        <option value="{{ product }}">{{ product }}</option>
-        {% endfor %}
-      </select>
-      <button id="microphone_select" type="button" class="microphone btn btn-primary">
-        <i class="fa-solid fa-microphone"></i>
-      </button>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="driver">Conductor</label>
-    <div class="input-group mb-3">
-      <input type="text" name="driver" id="driver" class="form-control" required>
-      <button id="microphone_2" type="button" class="microphone btn btn-primary">
-        <i class="fa-solid fa-microphone"></i>
-      </button>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="company">Empresa de origen</label>
-    <div class="input-group mb-3">
-      <input type="text" name="company" id="company" class="form-control" required>
-      <button id="microphone_3" type="button" class="microphone btn btn-primary">
-        <i class="fa-solid fa-microphone"></i>
-      </button>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Registrar camión</button>
-</form>
-
-<!-- Display the next truck -->
-<div class="card mb-4">
-  <div class="card-body">
-    <h5 class="card-title">Siguiente</h5>
-    <p class="card-text">
-    {% if next_truck %}
-    Número de placa: {{ next_truck['license'] }}, Producto: {{ next_truck['product'] }}, Conductor: {{ next_truck['driver'] }}, Empresa de origen: {{ next_truck['company'] }}, Hora de llegada: {{ next_truck['arrival_time'] }}
-    {% else %}
-    No hay camiones en cola
-    {% endif %}
-    </p>
-  </div>
+<!-- Record button -->
+<div class="text-center mb-4">
+    <button id="microphone_name" type="button" class="microphone btn btn-primary">
+        <i class="fa-solid fa-microphone me-2"></i>Grabar nombre
+    </button>
 </div>
 
-<!-- Button to process (dequeue) -->
-<form method="POST" action="{{ url_for('process_truck') }}" class="mb-4">
-  <button type="submit" class="btn btn-danger" {% if not trucks %}disabled{% endif %}>Procesar camión</button>
+<!-- Hidden form for submitting names -->
+<form method="POST" action="{{ url_for('add_name') }}" id="nameForm" style="display: none;">
+    <input type="hidden" name="name" id="nameInput">
 </form>
 
-<!-- List of trucks in the queue -->
-<h3>En cola</h3>
-{% if trucks %}
-<ul class="list-group">
-  {% for truck in trucks %}
-  <li class="list-group-item">Número de placa: {{ truck['license'] }}, Producto: {{ truck['product'] }}, Conductor: {{ truck['driver'] }}, Empresa de origen: {{ truck['company'] }}, Hora de llegada: {{ truck['arrival_time'] }}</li>
-  {% endfor %}
-</ul>
+<!-- Display the next name -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Siguiente</h5>
+        <p class="card-text">
+            {% if next_name %}
+                {{ next_name }}
+            {% else %}
+                No hay nombres en la cola
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<!-- Process button -->
+<form method="POST" action="{{ url_for('process_name') }}" class="mb-4">
+    <button type="submit" class="btn btn-danger" {% if not names %}disabled{% endif %}>Atender</button>
+</form>
+
+<!-- Queue list -->
+<h3>En Cola</h3>
+{% if names %}
+    <ul class="list-group">
+        {% for name in names %}
+            <li class="list-group-item">{{ name }}
+        {% endfor %}
+    </ul>
 {% else %}
-<p>No trucks in the queue.</p>
+    <p>No hay nombres en la cola.</p>
 {% endif %}
 {% endblock %}
