@@ -1,0 +1,48 @@
+    {% extends 'index.html' %}
+
+    {% block content %}
+    <h1 class="text-center mb-4">Grabar Nombres</h1>
+
+    <!-- Record button -->
+    <div class="text-center mb-4">
+        <button id="microphone_name" type="button" class="microphone btn btn-primary">
+            <i class="fa-solid fa-microphone me-2"></i>Grabar
+        </button>
+    </div>
+
+    <!-- Hidden form for submitting names -->
+    <form method="POST" action="{{ url_for('add_name') }}" id="nameForm" style="display: none;">
+        <input type="hidden" name="name" id="nameInput">
+    </form>
+
+    <!-- Display the next name -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Siguiente</h5>
+            <p class="card-text">
+                {% if next_name %}
+                    {{ next_name }}
+                {% else %}
+                    No hay nombres en la cola
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Queue list -->
+    <h3>En Cola</h3>
+    {% if names %}
+        <ul class="list-group">
+            {% for name in names %}
+                <li class="list-group-item">{{ name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay nombres en la cola.</p>
+    {% endif %}
+
+    <!-- Link to attend view -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('attend') }}" class="btn btn-secondary">Ir a Atender</a>
+    </div>
+    {% endblock %}
