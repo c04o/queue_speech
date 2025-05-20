@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1 class="text-center mb-4">Atender Nombres</h1>
+
+<!-- Display the next name -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Siguiente</h5>
+        <p class="card-text">
+            {% if next_name %}
+                {{ next_name }}
+            {% else %}
+                No hay nombres en la cola
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<!-- Process button -->
+<form method="POST" action="{{ url_for('process_name') }}" class="mb-4">
+    <button type="submit" class="btn btn-danger" {% if not names %}disabled{% endif %}>Atender</button>
+</form>
+
+<!-- Queue list -->
+<h3>En Cola</h3>
+{% if names %}
+    <ul class="list-group">
+        {% for name in names %}
+            <li class="list-group-item">{{ name }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay nombres en la cola.</p>
+{% endif %}
+
+<!-- Link to record view -->
+<div class="text-center mt-4">
+    <a href="{{ url_for('record') }}" class="btn btn-secondary">Ir a Grabar</a>
+</div>
+{% endblock %}
