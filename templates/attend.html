@@ -18,8 +18,8 @@
 </div>
 
 <!-- Process button -->
-<form method="POST" action="{{ url_for('process_name') }}" class="mb-4">
-    <button type="submit" class="btn btn-danger" {% if not names %}disabled{% endif %}>Atender</button>
+<form method="POST" action="{{ url_for('process_name') }}" id="attendForm" class="mb-4">
+    <button type="submit" id="attendButton" class="btn btn-danger" {% if not names %}disabled{% endif %}>Atender</button>
 </form>
 
 <!-- Queue list -->
