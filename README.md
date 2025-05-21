@@ -13,7 +13,7 @@
 ## Clone this repository
 Run this in your project directory:
 ```shell
-git clone https://github.com/c04o/queue_speech.git
+git clone -b list https://github.com/c04o/queue_speech.git
 ```
 > [!NOTE]
 > If cloning fails, download the repository as a ZIP from GitHub
