@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from queue import Queue  # Importa tu clase personalizada desde queue.py
 
 app = Flask(__name__)
